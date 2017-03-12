@@ -17,17 +17,24 @@ var candidates = [
 ]
 
 
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 app.use(cors())
+app.options('*', cors())
 
 //post some votes
 app.post("/votes", function(req, res){
-  console.log(req.body[0])
-  res.json({})
+  var votes = req.body
+  votes.forEach(function(vote){
+    candidates.forEach(function(candidate){
+      if (candidate.name === vote.name){
+        candidate.votes += vote.votes
+      }
+    })
+  })
 })
 
 //get voting page
-app.get("/votes", function(req, res){
+app.get("/results", cors(), function(req, res){
   res.json(candidates)
 })
 
