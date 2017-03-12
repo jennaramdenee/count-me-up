@@ -1,0 +1,12 @@
+body {
+  font-family: Verdana;
+  font-size: 12px;
+}
+
+input {
+  padding: 5px;
+}
+
+#vote-summary {
+  padding: 5px;
+}
