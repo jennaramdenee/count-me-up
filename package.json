@@ -1,0 +1,16 @@
+{
+  "name": "count-me-up2",
+  "version": "1.0.0",
+  "description": "Vote Counting App",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "jennaramdenee",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "express": "^4.15.2",
+    "mocha": "^3.2.0"
+  }
+}
