@@ -38,16 +38,20 @@ $(document).ready(function(){
       vote.votes = $(this).val() === "" ? 0 : parseInt($(this).val(), 10)
       results.push(vote)
     })
+    postVotes(results)
+    window.location.replace("http://localhost:3000/results")
+  })
 
-    //post request
+  //post request
+  function postVotes(results){
     $.ajax({
       type: "POST",
       url: "http://localhost:3000/votes",
       data: JSON.stringify(results),
       contentType: "application/json; charset=utf-8"
     });
+  }
 
-  })
 
   $("#voting-form").on('keyup change', function(e){
     e.preventDefault()
