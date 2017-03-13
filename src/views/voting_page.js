@@ -1,26 +1,17 @@
-var candidates = [
-  {
-    name: "Candidate-1",
-    votes: 10
-  },
-  {
-    name: "Candidate-2",
-    votes: 20
-  },
-  {
-    name: "Candidate-3",
-    votes: 10
-  }
-]
-
 $(document).ready(function(){
 
-  populateCandidates()
-  populateForm()
+  getCandidates()
 
-  function populateCandidates(){
+  function getCandidates(){
+    $.get("http://localhost:3000/results", function(data){
+      populateCandidates(data)
+      populateForm()
+    })
+  }
+
+  function populateCandidates(candidates){
     candidates.forEach(function(candidate){
-      var inputString = candidate.name + "<input class='candidate' type='number' name='" + candidate.name + "'></input><br>"
+      var inputString = candidate.name + "<input class='candidate' type='number' min='0' name='" + candidate.name + "'></input><br>"
       $("#voting-form").append(inputString)
     })
   }
@@ -32,6 +23,7 @@ $(document).ready(function(){
   $("#voting-form").on('submit', function(e){
     e.preventDefault()
     var results = []
+    results.push(($("#voting-form").find("input.user").val()))
     $("#voting-form").find("input.candidate").each(function(){
       var vote = {}
       vote.name = $(this).attr("name")
@@ -39,7 +31,6 @@ $(document).ready(function(){
       results.push(vote)
     })
     postVotes(results)
-    window.location.replace("http://localhost:3000/results")
   })
 
   //post request
@@ -48,7 +39,14 @@ $(document).ready(function(){
       type: "POST",
       url: "http://localhost:3000/votes",
       data: JSON.stringify(results),
-      contentType: "application/json; charset=utf-8"
+      contentType: "application/json; charset=utf-8",
+      success: function(response){
+        if (response.status != "success"){
+          alert("Votes cannot be processed - code already used")
+        } else {
+          window.location.replace("./counter_page.html")
+        }
+      }
     });
   }
 
