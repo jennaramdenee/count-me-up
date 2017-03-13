@@ -4,9 +4,9 @@ body {
 }
 
 input {
-  padding: 5px;
+  margin: 5px;
 }
 
 #vote-summary {
-  padding: 5px;
+  padding: 15px;
 }
