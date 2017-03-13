@@ -1,5 +1,4 @@
 //node stuff
-// var Counter = require('../src/models/counter')
 
 var express = require('express')
 var bodyParser = require('body-parser');
@@ -14,23 +13,38 @@ var candidates = [
     name: "Candidate-2",
     votes: 20
   },
+  {
+    name: "Candidate-3",
+    votes: 5
+  },
 ]
+var users = {
+  'abc': false,
+  'def': false,
+  'ghi': false
+}
 
 
 app.use(bodyParser.json())
 app.use(cors())
-app.options('*', cors())
 
 //post some votes
 app.post("/votes", function(req, res){
-  var votes = req.body
-  votes.forEach(function(vote){
-    candidates.forEach(function(candidate){
-      if (candidate.name === vote.name){
-        candidate.votes += vote.votes
-      }
+  var user = req.body[0]
+  if (users[user] === false) {
+    var votes = req.body.splice(1)
+    votes.forEach(function(vote){
+      candidates.forEach(function(candidate){
+        if (candidate.name === vote.name){
+          candidate.votes += vote.votes
+        }
+      })
     })
-  })
+    res.json({ "status": "success" })
+    users[user] = true
+  } else {
+    res.json({ "status": "fail" })
+  }
 })
 
 //get voting page
