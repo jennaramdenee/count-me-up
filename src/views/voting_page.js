@@ -53,6 +53,7 @@ $(document).ready(function(){
 
   $("#voting-form").on('keyup change', function(e){
     e.preventDefault()
+    checkForNegatives()
     calculateVotesUsed()
   })
 
@@ -66,6 +67,14 @@ $(document).ready(function(){
       } else {
         $("#remaining-votes").text(remainingVotes)
         $("#submit").show();
+      }
+    })
+  }
+
+  function checkForNegatives(){
+    $("#voting-form").find("input.candidate").each(function(){
+      if ($(this).val() < 0) {
+        $(this).val(0)
       }
     })
   }
